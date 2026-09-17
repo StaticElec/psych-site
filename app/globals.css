@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+:root {
+  --paper: #fbf6ee; --ink: #172129; --blue: #0d3f53; --bright-blue: #245f97;
+  --gold: #9a8050; --pale-gold: #e9ddca; --line: rgba(154, 128, 80, 0.46);
+  --background: var(--paper); --foreground: var(--ink); --card: #fffaf3; --card-foreground: var(--ink);
+  --popover: #fffaf3; --popover-foreground: var(--ink); --primary: var(--blue); --primary-foreground: #fff;
+  --secondary: var(--pale-gold); --secondary-foreground: var(--ink); --muted: #f0e5d5; --muted-foreground: #655c53;
+  --accent: #d6bf97; --accent-foreground: var(--ink); --destructive: #a61b1b; --border: var(--line);
+  --input: #e9ddca; --ring: var(--bright-blue); --radius: .25rem;
+}
+@theme inline {
+  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground); --color-destructive: var(--destructive); --color-border: var(--border);
+  --color-input: var(--input); --color-ring: var(--ring); --radius-sm: .15rem; --radius-md: .25rem; --radius-lg: .4rem; --radius-xl: .65rem;
+  --font-sans: "Trebuchet MS", Arial, sans-serif; --font-serif: Georgia, "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--ink); background-color: var(--paper); background-image: linear-gradient(rgba(251,246,238,.9),rgba(251,246,238,.9)),url('/images/page-background.jpg'); background-position: center top; background-size: 1200px auto; font-family: "Trebuchet MS",Arial,sans-serif; font-size: 16px; line-height: 1.55; }
+a { color: inherit; }
+.wrap { width: min(1120px,calc(100% - 40px)); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.site-header { background: rgba(251,246,238,.96); }
+.header-top { min-height: 120px; display: flex; align-items: center; justify-content: space-between; gap: 32px; border-bottom: 1px solid var(--line); }
+.brand { text-decoration: none; display: flex; align-items: center; gap: 16px; }
+.brand-mark,.footer-mark { border: 1.5px solid var(--gold); color: var(--gold); border-radius: 50%; width: 84px; aspect-ratio: 1; display: grid; place-items: center; font-family: Georgia,serif; font-weight: 700; letter-spacing: -.05em; }
+.brand-copy { display: grid; text-transform: uppercase; }
+.brand-copy strong { color: var(--blue); font-size: clamp(1.45rem,3vw,2.35rem); font-weight: 500; letter-spacing: -.035em; line-height: 1; }
+.brand-copy em { color: var(--gold); font-family: Georgia,serif; font-weight: 400; font-style: normal; }
+.brand-copy small { justify-self: center; color: var(--bright-blue); font-size: .95rem; margin-top: 8px; letter-spacing: .04em; }
+.header-contact { display: grid; justify-items: stretch; gap: 10px; min-width: 310px; }
+.phone { justify-self: center; text-decoration: none; font: 1.35rem Georgia,serif; }
+.header-cta,.primary-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 28px; background: var(--blue); color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: .12em; border-radius: 18px; transition: background .2s ease,transform .2s ease; }
+.header-cta:hover,.primary-cta:hover { background: var(--bright-blue); transform: translateY(-1px); }
+.desktop-nav { display: grid; grid-template-columns: repeat(6,1fr); min-height: 74px; align-items: center; }
+.desktop-nav a { justify-self: center; text-decoration: none; font-size: 1.15rem; padding: 8px 4px; border-bottom: 3px solid transparent; }
+.desktop-nav a[aria-current="page"] { border-color: var(--gold); }
+.mobile-nav { display: none; }
+.hero { position: relative; min-height: 350px; margin-top: 62px; overflow: hidden; }
+.hero .image-slot { position: absolute; inset: 0; }
+.hero h1 { position: relative; z-index: 1; margin: 42px 0 0 52px; font: italic 600 clamp(1.7rem,4vw,3rem)/1.3 Georgia,serif; color: #12232a; text-shadow: 0 1px 10px rgba(255,255,255,.8); }
+.image-slot { position: relative; overflow: hidden; background: linear-gradient(135deg,#e9ddca,#f6eee3 60%,#d8c4a2); min-height: 140px; }
+.image-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .2s ease; }
+.image-slot.is-loaded img { opacity: 1; }
+.image-placeholder { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; color: #76684f; font-size: .88rem; text-transform: uppercase; letter-spacing: .12em; text-align: center; }
+.image-slot.is-loaded .image-placeholder { display: none; }
+.home-intro { padding: 66px 7% 30px; text-align: center; }
+.home-intro blockquote { position: relative; margin: 0 auto 34px; max-width: 900px; color: var(--blue); font: italic 1.22rem/1.55 Georgia,serif; }
+.home-intro blockquote span { position: absolute; left: -35px; top: -25px; color: var(--bright-blue); font: 5rem/1 Georgia,serif; }
+.primary-cta { width: min(820px,100%); text-transform: none; letter-spacing: 0; font-size: 1.1rem; border-radius: 12px; }
+.services-preview { padding: 28px 0 78px; text-align: center; }
+.services-preview h2 { color: var(--blue); text-transform: uppercase; letter-spacing: .045em; font: 1.55rem Georgia,serif; }
+.service-list { display: grid; gap: 44px; margin: 42px 0; text-align: left; }
+.service-row { display: grid; grid-template-columns: 230px 1fr; align-items: center; gap: 38px; }
+.service-row .image-slot { min-height: 160px; }
+.service-row p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.explore-link { display: inline-block; margin: 16px 0 36px; font-size: 1.25rem; text-decoration: none; }
+.content-page { padding: 72px 0 100px; min-height: 900px; }
+.prose { font-family: Georgia,"Times New Roman",serif; font-size: 1.04rem; line-height: 1.66; }
+.prose p { margin: 0 0 1.55em; }
+.prose h1,.prose h2 { margin: 0 0 .6em; color: var(--blue); font: 600 1.18rem/1.3 "Trebuchet MS",Arial,sans-serif; }
+.about-lead { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(300px,.8fr); gap: 56px; align-items: start; }
+.about-lead figure { margin: 0; text-align: center; color: #625c55; }
+.about-lead figure .image-slot { min-height: 580px; }
+.about-lead figcaption { margin-top: 10px; font: 1.05rem Georgia,serif; }
+.full-prose { margin-top: 34px; }
+.services-page { max-width: 980px; }
+.service-feature-image { min-height: 390px; width: min(620px,100%); margin: 0 auto 24px; }
+.services-page>.prose { margin-bottom: 64px; }
+.development { position: relative; padding-top: 26px; }
+.development .eyebrow { text-align: center; text-transform: uppercase; letter-spacing: .08em; color: var(--ink); font-weight: 700; }
+.film-consultation { display: grid; grid-template-columns: 1.4fr .75fr; gap: 42px; align-items: center; margin: 38px 0 68px; }
+.film-consultation .image-slot { min-height: 320px; }
+.more-services { border-top: 1px solid var(--line); padding-top: 28px; text-align: center; }
+.more-services>h2 { margin: 0 0 20px; font: 500 1.2rem Georgia,serif; }
+.more-services article { margin-bottom: 12px; }
+.more-services h3 { margin: 0; font-size: .96rem; }
+.more-services p { margin: 2px 0 0; font: .9rem/1.4 Georgia,serif; }
+.fees-page { max-width: 930px; text-align: center; }
+.fees-image { width: min(350px,100%); min-height: 430px; margin: 0 auto 34px; }
+.fees-intro { max-width: 850px; margin: 0 auto 58px; }
+.fee-card { display: grid; place-items: center; min-height: 128px; margin: 0 auto 46px; border: 3px solid var(--gold); font: 1.05rem/1.4 Georgia,serif; }
+.fee-card strong,.fee-card span { display: block; }
+.fees-details { margin: 72px auto; font: 1.05rem/1.5 Georgia,serif; }
+.fees-details h1,.fees-details h2 { margin: 36px 0 0; font: 600 1.05rem "Trebuchet MS",sans-serif; text-transform: uppercase; }
+.blog-page { display: grid; gap: 96px; }
+.blog-placeholder { min-height: 260px; border: 3px solid var(--gold); padding: 28px; display: grid; grid-template-columns: 220px 1fr; gap: 50px; align-items: start; }
+.blog-placeholder .image-slot { min-height: 200px; }
+.blog-placeholder time { display: block; margin-top: 8px; font-size: 1.05rem; }
+.blog-placeholder h2 { margin: 26px 0 0; font-size: 1.15rem; font-weight: 500; }
+.legal-page { max-width: 900px; font: 1.04rem/1.58 Georgia,serif; }
+.legal-page section { scroll-margin-top: 40px; margin-bottom: 76px; }
+.legal-page h1 { text-align: center; text-transform: uppercase; letter-spacing: .06em; font: 600 1.35rem "Trebuchet MS",sans-serif; }
+.legal-page h2 { text-align: center; font-size: 1.08rem; font-weight: 500; }
+.legal-page article { margin: 42px 0; }
+.rule { height: 2px; background: var(--gold); margin: 26px 0 38px; }
+.contact-page { max-width: 1040px; }
+.contact-form { display: grid; gap: 52px; }
+.contact-form label { border: 3px solid var(--gold); padding: 14px 16px 18px; text-transform: uppercase; letter-spacing: .04em; font-size: 1.15rem; }
+.contact-form input,.contact-form textarea { display: block; width: 100%; margin-top: 16px; border: 0; background: var(--pale-gold); padding: 16px; color: var(--ink); font: 1rem "Trebuchet MS",sans-serif; outline: 2px solid transparent; }
+.contact-form input:focus,.contact-form textarea:focus { outline-color: var(--bright-blue); }
+.contact-form textarea { resize: vertical; min-height: 290px; }
+.contact-form label>span { display: block; margin-top: -165px; margin-bottom: 130px; text-align: center; text-transform: none; letter-spacing: 0; pointer-events: none; }
+.contact-submit { width: min(840px,100%); min-height: 62px; margin: 10px auto 0; border: 0; border-radius: 12px; background: var(--bright-blue); color: #fff; font-size: 1.15rem; }
+.contact-submit:disabled { opacity: 1; cursor: default; }
+.site-footer { background: var(--blue); color: #fff; padding: 58px 0 28px; }
+.footer-grid { display: grid; grid-template-columns: 190px 1fr 1fr 1.25fr; gap: 42px; align-items: start; text-align: center; }
+.footer-mark { width: 128px; color: #c7a96d; border-color: #c7a96d; justify-self: center; }
+.footer-grid h2 { margin: 0 0 8px; font-size: 1.1rem; font-weight: 500; }
+.footer-grid p { margin: 0; }
+.footer-grid section a { display: block; }
+.footer-grid section a { overflow-wrap: anywhere; }
+.footer-bottom { display: flex; gap: 10px 24px; flex-wrap: wrap; margin-top: 56px; }
+.footer-bottom a { text-decoration: none; }
+@media (max-width: 760px) {
+  .wrap { width: min(100% - 28px,680px); }
+  .header-top { min-height: 96px; }
+  .brand-mark { width: 58px; }
+  .brand-copy strong { font-size: 1.4rem; }
+  .brand-copy small { font-size: .72rem; }
+  .header-contact { min-width: 0; }
+  .header-contact .phone span,.header-cta { display: none; }
+  .desktop-nav { display: none; }
+  .mobile-nav { display: block; padding-block: 10px 16px; }
+  .mobile-nav summary { cursor: pointer; color: var(--blue); font-weight: 700; }
+  .mobile-nav nav { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; padding-top: 12px; }
+  .mobile-nav a { padding: 8px; border: 1px solid var(--line); text-decoration: none; text-align: center; }
+  .hero { min-height: 280px; margin-top: 20px; }
+  .hero h1 { margin: 28px 0 0 24px; }
+  .home-intro { padding-inline: 30px; }
+  .home-intro blockquote span { left: -25px; }
+  .service-row { grid-template-columns: 1fr; gap: 16px; }
+  .service-row .image-slot { min-height: 210px; }
+  .content-page { padding: 42px 0 70px; }
+  .about-lead,.film-consultation { grid-template-columns: 1fr; }
+  .about-lead figure { order: -1; }
+  .about-lead figure .image-slot { min-height: 480px; }
+  .service-feature-image { min-height: 250px; }
+  .blog-page { gap: 42px; }
+  .blog-placeholder { grid-template-columns: 1fr; gap: 18px; }
+  .blog-placeholder .image-slot { min-height: 230px; }
+  .contact-form { gap: 28px; }
+  .contact-form label { font-size: .98rem; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { justify-content: center; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
