@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ImageSlot } from "@/components/image-slot";
 
 const links = [["Home", "/"], ["About", "/about"], ["Services", "/services"], ["Fees", "/fees"], ["Blog", "/blog"], ["Contact", "/contact"]] as const;
 
@@ -10,8 +11,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="header-top wrap">
         <Link className="brand" href="/" aria-label="Depth and Meaning Psychotherapy home">
-          <span className="brand-mark" aria-hidden="true">D&amp;M</span>
-          <span className="brand-copy"><strong>Depth <em>&amp;</em> Meaning</strong><small>Psychotherapy</small></span>
+          <ImageSlot src="/images/header-logo.png" alt="Depth and Meaning Psychotherapy" label="Header logo" className="brand-logo-slot" />
         </Link>
         <div className="header-contact">
           <a className="phone" href="tel:+17473053949">☎ <span>(747) 305-3949</span></a>

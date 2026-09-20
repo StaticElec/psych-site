@@ -6,7 +6,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "Depth & Meaning Psychotherapy", template: "%s | Depth & Meaning Psychotherapy" },
   description: "Depth-oriented psychotherapy with Dr. Yana Romanov in Los Angeles.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: { icon: "/images/favicon.png", shortcut: "/images/favicon.png" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
