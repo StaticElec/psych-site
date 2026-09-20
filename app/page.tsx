@@ -28,8 +28,10 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <Link className="explore-link" href="/services">Explore all <span aria-hidden="true">→</span></Link>
-        <Link className="primary-cta" href="/contact">Schedule a Consultation</Link>
+        <div className="services-actions">
+          <Link className="explore-link" href="/services">Explore all <span aria-hidden="true">→</span></Link>
+          <Link className="primary-cta" href="/contact">Schedule a Consultation</Link>
+        </div>
       </section>
     </main>
   );
