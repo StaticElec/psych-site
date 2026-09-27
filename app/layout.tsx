@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+import { Della_Respira, Open_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteContent } from "@/content/site-content";
@@ -14,6 +14,13 @@ const openSans = Open_Sans({
   adjustFontFallback: true,
 });
 
+const dellaRespira = Della_Respira({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-della-respira",
+  preload: true,
+});
+
 export const metadata: Metadata = {
   title: { default: siteContent.metadata.siteTitle, template: siteContent.metadata.titleTemplate },
   description: siteContent.metadata.siteDescription,
@@ -22,5 +29,5 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const backgroundStyle = { "--page-background-image": `url('${siteContent.images.branding.pageBackground.src}')` } as React.CSSProperties;
-  return <html lang="en" className={openSans.variable}><body style={backgroundStyle}><SiteHeader />{children}<SiteFooter /></body></html>;
+  return <html lang="en" className={`${openSans.variable} ${dellaRespira.variable}`}><body style={backgroundStyle}><SiteHeader />{children}<SiteFooter /></body></html>;
 }
