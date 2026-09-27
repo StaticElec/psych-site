@@ -21,7 +21,14 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--ink); background-color: #fcf7ef; background-image: var(--page-background-image); background-position: left top; background-size: 100% auto; background-repeat: no-repeat; background-blend-mode: normal; font-family: var(--font-open-sans),Arial,sans-serif; font-size: 16px; line-height: 1.55; }
+body { --page-background-width: 100vw; --page-background-position: left top; margin: 0; color: var(--ink); background-color: #fcf7ef; background-image: var(--page-background-image); background-position: var(--page-background-position); background-size: var(--page-background-width) auto; background-repeat: no-repeat; background-blend-mode: normal; font-family: var(--font-open-sans),Arial,sans-serif; font-size: 16px; line-height: 1.55; }
+body:has(.home-page) { --page-background-width: 130vw; }
+body:has(.about-page) { --page-background-width: 109vw; }
+body:has(.services-page) { --page-background-width: 100vw; --page-background-position: left center; }
+body:has(.fees-page) { --page-background-width: 156vw; }
+body:has(.blog-page) { --page-background-width: 98vw; }
+body:has(.legal-page) { --page-background-width: 133vw; }
+body:has(.contact-page) { --page-background-width: 103vw; }
 button,input,textarea,select { font-family: inherit; }
 a { color: inherit; }
 .wrap { width: min(1120px,calc(100% - 40px)); margin-inline: auto; }
