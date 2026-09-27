@@ -1,16 +1,39 @@
-# Image replacements
+# Website images
 
-Add image files to this folder using the exact names below. The website detects them automatically; until then, each area shows a styled placeholder.
+All website image paths, alt text, and fallback labels are managed in
+`content/site-content.ts`, under `siteContent.images`. Edit that file when a
+filename or image description changes.
 
-- `header-logo.png` — full horizontal logo used in the site header (recommended transparent PNG, approximately 900 × 220 px)
-- `footer-logo.png` — compact or circular logo mark used in the footer (recommended transparent square PNG, approximately 500 × 500 px)
-- `favicon.png` — browser-tab icon (recommended square PNG, 512 × 512 px)
-- `page-background.jpg` — subtle botanical background used across pages (recommended 1600 × 2400 px or larger)
-- `home-hero.jpg` — coastal/lighthouse home hero (recommended 1600 × 700 px)
-- `home-anxiety.jpg`, `home-depression.jpg`, `home-family.jpg` — home service thumbnails (recommended 800 × 600 px)
-- `dr-yana-romanov.jpg` — About portrait (recommended 900 × 1200 px)
-- `service-individual.jpg`, `service-couples.jpg`, `service-family.jpg`, `service-intensive.jpg`, `service-film.jpg` — Services illustrations (recommended 1200 × 700 px)
-- `fees-growth.jpg` — plant/growth image on Fees (recommended 800 × 1000 px)
-- `blog-1.jpg`, `blog-2.jpg`, `blog-3.jpg` — temporary Blog card images (recommended square)
+Every image lives in `public/images/`. For files already present, replacing the
+existing file with another file using the same filename is sufficient; no code
+or settings change is needed. Keep the same file format and approximate aspect
+ratio to preserve the current layout.
 
-The logo and favicon files use PNG. All other image files use JPG. If you prefer a different format, update the matching path in the page source.
+| Settings key | Physical filename | Where it appears | Recommended size / aspect ratio |
+| --- | --- | --- | --- |
+| `images.branding.headerLogo` | `header-logo-small.webp` | Site header | Transparent lossless WebP, 256 × 256 px |
+| `images.branding.footerLogo` | `footer-logo-small.webp` | Site footer | Transparent lossless WebP, 256 × 256 px |
+| `images.branding.favicon` | `favicon-128.png` | Browser tab | Transparent PNG, 128 × 128 px |
+| `images.branding.pageBackground` | `page-background.png` | Background across all pages | Approximately 1600 × 2400 px or larger |
+| `images.homePage.hero` | `home-hero.png` | Home-page hero | Approximately 1600 × 700 px |
+| `images.homePage.anxietyService` | `home-anxiety.png` | Home Anxiety service row | Approximately 800 × 600 px |
+| `images.homePage.depressionService` | `home-depression.png` | Home Depression service row | Approximately 800 × 600 px |
+| `images.homePage.familyTherapyService` | `home-family.png` | Home Family therapy service row | Approximately 800 × 600 px |
+| `images.aboutPage.clinicianPortrait` | `dr-yana-romanov.png` | About-page portrait | Approximately 900 × 1200 px |
+| `images.servicesPage.individualTherapy` | `service-individual.png` | Individual Therapy section | Approximately 1200 × 700 px |
+| `images.servicesPage.couplesTherapy` | `service-couples.png` | Couples Therapy section | Approximately 1200 × 700 px |
+| `images.servicesPage.teenAndFamilyTherapy` | `service-family.png` | Teen and Family Therapy section | Approximately 1200 × 700 px |
+| `images.servicesPage.therapyIntensive` | `service-intensive.png` | Therapy Intensive section | Approximately 1200 × 700 px |
+| `images.servicesPage.filmConsultation` | `service-film.png` | Film consultation section | Approximately 1200 × 700 px |
+| `images.feesPage.growth` | `fees-growth.png` | Fees page | Approximately 800 × 1000 px |
+| `images.blogPage.articleOne` | `blog-1.jpg` | First temporary Blog card | Square |
+| `images.blogPage.articleTwo` | `blog-2.jpg` | Second temporary Blog card | Square |
+| `images.blogPage.articleThree` | `blog-3.jpg` | Third temporary Blog card | Square |
+
+The three Blog images are intentionally absent and display the existing styled
+fallback placeholders until the later Medium integration work is undertaken.
+Adding each file under the documented filename is sufficient to make it appear.
+
+The original `header-logo.png`, `header-logo.webp`, `footer-logo.png`,
+`footer-logo.webp`, and `favicon.png` files are retained as full-resolution
+source assets. The site uses the smaller filenames documented above.

@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "psych-site-contact",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-05-15",
+  "keep_vars": true,
+  "observability": {
+    "enabled": true
+  }
+}

@@ -116,6 +116,15 @@ Replace the filename with the pending migration and `DB` with your D1 binding na
 - `npm run start`: preview the built Worker locally with D1/R2 support
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
+## Medium Blog Feed
+
+The server-side blog integration reads `MEDIUM_RSS_URL`. If it is unset, it
+defaults to `https://medium.com/feed/@yburmistrova`. Set `MEDIUM_RSS_URL` in the
+build/deployment environment only when the Medium account or publication changes,
+then rebuild the site.
+Feed responses are cached and revalidated hourly; visitors do not fetch Medium
+directly from their browsers.
+
 When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
 
 The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.

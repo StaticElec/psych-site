@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { siteContent } from "@/content/site-content";
 
-export const metadata: Metadata = { title: "Terms & Privacy" };
+export const metadata: Metadata = siteContent.metadata.pages.legal;
 
 export default function TermsPage() {
+  const { legalPage } = siteContent;
+
   return (
     <main className="content-page wrap legal-page">
-      <section id="terms"><h1>Terms and Conditions</h1><div className="rule" /><article><h2>Website Disclaimer &amp; Clinical Relationship</h2><p>The information provided on this website is intended for general educational and informational purposes only and should not be considered psychotherapy, psychological or medical advice, diagnosis, or treatment. Visiting this website, reading its content, or submitting an inquiry does not establish a therapist-client relationship with Depth &amp; Meaning Psychotherapy or any clinician associated with the practice. A therapeutic relationship is established only after appropriate consultation, mutual agreement to begin treatment, completion of required documentation and informed consent. Information presented on this website should not be used as a substitute for individualized evaluation or treatment by an appropriately licensed healthcare professional.</p></article><article><h2>Use and Disclosure of Information</h2><p>We respect the sensitive nature of mental-health information and limit the use and disclosure of personal information in accordance with applicable privacy laws and professional standards. Information may be disclosed when authorized by you or when disclosure is permitted or required by law, including circumstances involving legal obligations, valid court orders, or situations in which disclosure is necessary to address serious safety concerns. This website may contain links to third-party websites or services; their privacy and security practices are governed by their own policies and are outside our control. By using this website, you acknowledge these limitations and are encouraged to contact Depth &amp; Meaning Psychotherapy directly with questions regarding privacy, confidentiality, or the handling of your personal information.</p></article></section>
-      <section id="privacy"><h1>Privacy Policy</h1><div className="rule" /><p>Your privacy and confidentiality are deeply important to us. Depth &amp; Meaning Psychotherapy is a HIPAA-compliant practice, and we take appropriate administrative, technical, and professional measures to safeguard protected health information and other personal information entrusted to us. Information you voluntarily provide through this website, such as your name, telephone number, email address, or information submitted when requesting an appointment, is used for legitimate practice-related purposes, including responding to inquiries and facilitating services. While we take reasonable measures to protect information transmitted electronically, no method of communication or data transmission over the Internet can be guaranteed to be completely secure.</p></section>
+      <section id="terms"><h1>{legalPage.termsHeading}</h1><div className="rule" />{legalPage.termsSections.map((section) => <article key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</article>)}</section>
+      <section id="privacy"><h1>{legalPage.privacyHeading}</h1><div className="rule" />{legalPage.privacyParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
     </main>
   );
 }
