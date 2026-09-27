@@ -21,14 +21,8 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { --page-background-width: 100vw; --page-background-position: left top; margin: 0; color: var(--ink); background-color: #fcf7ef; background-image: var(--page-background-image); background-position: var(--page-background-position); background-size: var(--page-background-width) auto; background-repeat: no-repeat; background-blend-mode: normal; font-family: var(--font-open-sans),Arial,sans-serif; font-size: 16px; line-height: 1.55; }
-body:has(.home-page) { --page-background-width: 130vw; }
-body:has(.about-page) { --page-background-width: 109vw; }
-body:has(.services-page) { --page-background-width: 100vw; --page-background-position: left center; }
-body:has(.fees-page) { --page-background-width: 156vw; }
-body:has(.blog-page) { --page-background-width: 98vw; }
-body:has(.legal-page) { --page-background-width: 133vw; }
-body:has(.contact-page) { --page-background-width: 103vw; }
+body { --page-background-width: 100vw; --page-background-position: left center; margin: 0; color: var(--ink); background-color: #fcf7ef; background-image: var(--page-background-image); background-position: var(--page-background-position); background-size: var(--page-background-width) auto; background-repeat: no-repeat; background-blend-mode: normal; font-family: var(--font-open-sans),Arial,sans-serif; font-size: 16px; line-height: 1.55; }
+body:has(.home-page) { background-image: none; }
 button,input,textarea,select { font-family: inherit; }
 a { color: inherit; }
 .wrap { width: min(1120px,calc(100% - 40px)); margin-inline: auto; }
@@ -52,6 +46,7 @@ a { color: inherit; }
 .hero { position: relative; min-height: 350px; margin-top: 62px; overflow: hidden; }
 .hero .image-slot { position: absolute; inset: 0; }
 .hero h1 { position: relative; z-index: 1; margin: 42px 0 0 52px; font: italic 600 clamp(1.7rem,4vw,3rem)/1.3 var(--font-della-respira),Georgia,"Times New Roman",serif; color: #12232a; text-shadow: 0 1px 10px rgba(255,255,255,.8); }
+.home-background { background-image: var(--page-background-image); background-position: left top; background-size: 100vw auto; background-repeat: no-repeat; background-blend-mode: normal; }
 .image-slot { position: relative; overflow: hidden; background: linear-gradient(135deg,#e9ddca,#f6eee3 60%,#d8c4a2); min-height: 140px; }
 .image-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .2s ease; }
 .image-slot.is-loaded img { opacity: 1; }
