@@ -14,7 +14,7 @@ ratio to preserve the current layout.
 | `images.branding.headerLogo` | `header-logo-small.webp` | Site header | Transparent lossless WebP, 256 × 256 px |
 | `images.branding.footerLogo` | `footer-logo-small.webp` | Site footer | Transparent lossless WebP, 256 × 256 px |
 | `images.branding.favicon` | `favicon-128.png` | Browser tab | Transparent PNG, 128 × 128 px |
-| `images.branding.pageBackground` | `page-background.png` | Background across all pages | Approximately 1600 × 2400 px or larger |
+| `images.branding.pageBackground` | `page-background.png` | Background across all pages | 1024 × 1536 px |
 | `images.homePage.hero` | `home-hero.png` | Home-page hero | Approximately 1600 × 700 px |
 | `images.homePage.anxietyService` | `home-anxiety.png` | Home Anxiety service row | Approximately 800 × 600 px |
 | `images.homePage.depressionService` | `home-depression.png` | Home Depression service row | Approximately 800 × 600 px |
