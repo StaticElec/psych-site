@@ -11,6 +11,7 @@
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "test": "vitest run",
     "worker:dev": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config worker/wrangler.jsonc --local --ip 127.0.0.1 --port 8787 --inspector-port 0",
     "worker:deploy": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js deploy --config worker/wrangler.jsonc",
     "worker:test": "node --experimental-strip-types --test worker/test/*.test.mjs",
@@ -64,6 +65,7 @@
     "typescript": "5.9.3",
     "vinext": "^1.0.0-beta.7",
     "vite": "8.0.13",
+    "vitest": "^4.0.17",
     "wrangler": "4.92.0"
   },
   "type": "module",

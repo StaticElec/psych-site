@@ -1,5 +1,6 @@
 import "server-only";
 
+import mediumPostsSnapshot from "@/content/medium-posts.snapshot.json";
 import { XMLParser } from "fast-xml-parser";
 import sanitizeHtml from "sanitize-html";
 
@@ -21,6 +22,8 @@ export type BlogPost = {
   guid: string;
   categories: string[];
 };
+
+const fallbackPosts: BlogPost[] = mediumPostsSnapshot;
 
 type RssItem = {
   title?: unknown;
@@ -175,14 +178,22 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const response = await fetch(MEDIUM_RSS_URL, {
       headers: { Accept: "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8" },
+      signal: AbortSignal.timeout(10_000),
       next: { revalidate: MEDIUM_RSS_REVALIDATE_SECONDS },
     });
 
     if (!response.ok) throw new Error(`Medium RSS returned HTTP ${response.status}`);
-    return parseMediumFeed(await response.text());
+    const posts = parseMediumFeed(await response.text());
+    if (posts.length === 0) {
+      throw new Error("Medium RSS contained no usable posts");
+    }
+    return posts;
   } catch (error) {
-    console.error("Unable to load the Medium RSS feed.", error);
-    return [];
+    console.error(
+      "Live Medium RSS feed failed; serving the last-known-good blog snapshot.",
+      error,
+    );
+    return fallbackPosts;
   }
 }
 

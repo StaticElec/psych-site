@@ -15,7 +15,10 @@ The Sites initializer copies the shared starter and selects managed-linux only w
 
 Whenever reopening or moving a checkout, run `node <plugin-root>/scripts/configure-execution-profile.mjs` before project commands. Profile changes do not alter tracked source or require reinstalling otherwise-valid dependencies; restart an existing preview to use the new selection. Do not commit or upload `.sites-runtime/`.
 
-This starter does not use `wrangler.jsonc`.
+The main site does not use a checked-in `wrangler.jsonc`. Vinext and the
+Cloudflare Vite plugin generate `dist/server/wrangler.json` for the site's
+Cloudflare Worker. The separate `worker/wrangler.jsonc` belongs only to the
+contact Worker.
 
 `install:ci` runs `npm ci` once against the shared lockfile, disables parent-workspace discovery, and includes required dev/optional dependencies despite production/omit settings. Sharp defaults to prebuilt binaries unless explicitly configured otherwise. Do not overlap installers.
 
@@ -119,11 +122,30 @@ Replace the filename with the pending migration and `DB` with your D1 binding na
 ## Medium Blog Feed
 
 The server-side blog integration reads `MEDIUM_RSS_URL`. If it is unset, it
-defaults to `https://medium.com/feed/@yburmistrova`. Set `MEDIUM_RSS_URL` in the
-build/deployment environment only when the Medium account or publication changes,
-then rebuild the site.
+defaults to `https://medium.com/feed/@yburmistrova`. Production does not need this
+variable, so remove it from the deployment environment to use the built-in
+default. If it is retained, its value must be exactly
+`https://medium.com/feed/@yburmistrova`. Keep it server-only; do not create a
+`NEXT_PUBLIC_MEDIUM_RSS_URL` variable. After changing deployment variables,
+rebuild and redeploy the site.
 Feed responses are cached and revalidated hourly; visitors do not fetch Medium
-directly from their browsers.
+directly from their browsers. If the live request fails, times out, returns a
+non-success response, cannot be parsed, or contains no usable posts, the server
+uses the checked-in last-known-good snapshot in
+`content/medium-posts.snapshot.json`.
+
+## Cloudflare production deployment
+
+Deploy the main site through the existing Vinext/Sites workflow as a Cloudflare
+Worker with SSR/ISR support. Do not select Cloudflare Pages' static Next.js
+preset: the blog feed is fetched by the generated site Worker and relies on
+hourly revalidation. `vite.config.ts` supplies a current Worker compatibility
+date and the `nodejs_compat` flag required for server dependencies and
+`process.env`; verify both remain present in the generated
+`dist/server/wrangler.json` after every production build.
+
+The standalone `psych-site-contact` Worker is not the site runtime. It owns only
+`/api/contact` and must not be routed to blog pages.
 
 When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
 
