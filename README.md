@@ -131,8 +131,8 @@ rebuild and redeploy the site.
 Feed responses are cached and revalidated hourly; visitors do not fetch Medium
 directly from their browsers. If the live request fails, times out, returns a
 non-success response, cannot be parsed, or contains no usable posts, the server
-uses the checked-in last-known-good snapshot in
-`content/medium-posts.snapshot.json`.
+retries Medium's equivalent profile-feed hostname before using the checked-in
+last-known-good snapshot in `content/medium-posts.snapshot.json`.
 
 ## Cloudflare production deployment
 

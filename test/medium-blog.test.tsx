@@ -30,12 +30,15 @@ const validFeed = `<?xml version="1.0" encoding="UTF-8"?>
   </channel>
 </rss>`;
 
-function mockFetch(result: Response | Error) {
+function mockFetch(...results: Array<Response | Error>) {
+  let callIndex = 0;
   vi.stubGlobal(
     "fetch",
-    vi.fn().mockImplementation(() =>
-      result instanceof Error ? Promise.reject(result) : Promise.resolve(result),
-    ),
+    vi.fn().mockImplementation(() => {
+      const result = results[Math.min(callIndex, results.length - 1)];
+      callIndex += 1;
+      return result instanceof Error ? Promise.reject(result) : Promise.resolve(result.clone());
+    }),
   );
 }
 
@@ -76,8 +79,28 @@ describe("getBlogPosts", () => {
 
     await expect(getBlogPosts()).resolves.toEqual(mediumPostsSnapshot);
     expect(console.error).toHaveBeenCalledWith(
-      "Live Medium RSS feed failed; serving the last-known-good blog snapshot.",
+      "Live Medium RSS feeds failed; serving the last-known-good blog snapshot.",
       expect.any(Error),
+    );
+  });
+
+  it("retries through Medium's profile feed when the primary feed is blocked", async () => {
+    mockFetch(
+      new Response("blocked", { status: 403 }),
+      new Response(validFeed, { status: 200 }),
+    );
+
+    const posts = await getBlogPosts();
+
+    expect(posts[0].title).toBe("A useful live post");
+    expect(fetch).toHaveBeenNthCalledWith(
+      2,
+      "https://yburmistrova.medium.com/feed",
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "User-Agent": expect.stringContaining("YanaRomanovBlog"),
+        }),
+      }),
     );
   });
 
@@ -94,7 +117,7 @@ describe("getBlogPosts", () => {
 
     await expect(getBlogPosts()).resolves.toEqual(mediumPostsSnapshot);
     expect(console.error).toHaveBeenCalledWith(
-      "Live Medium RSS feed failed; serving the last-known-good blog snapshot.",
+      "Live Medium RSS feeds failed; serving the last-known-good blog snapshot.",
       expect.objectContaining({ message: "Medium RSS contained no usable posts" }),
     );
   });

@@ -10,6 +10,10 @@ export const MEDIUM_RSS_URL =
 
 export const MEDIUM_RSS_REVALIDATE_SECONDS = 60 * 60;
 
+const MEDIUM_PROFILE_RSS_URL = "https://yburmistrova.medium.com/feed";
+const MEDIUM_RSS_USER_AGENT =
+  "Mozilla/5.0 (compatible; YanaRomanovBlog/1.0; +https://medium.com/@yburmistrova)";
+
 export type BlogPost = {
   title: string;
   slug: string;
@@ -174,27 +178,41 @@ export function parseMediumFeed(xml: string): BlogPost[] {
     .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 }
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
-  try {
-    const response = await fetch(MEDIUM_RSS_URL, {
-      headers: { Accept: "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8" },
-      signal: AbortSignal.timeout(10_000),
-      next: { revalidate: MEDIUM_RSS_REVALIDATE_SECONDS },
-    });
+async function fetchMediumPosts(feedUrl: string): Promise<BlogPost[]> {
+  const response = await fetch(feedUrl, {
+    headers: {
+      Accept: "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8",
+      "User-Agent": MEDIUM_RSS_USER_AGENT,
+    },
+    signal: AbortSignal.timeout(10_000),
+    next: { revalidate: MEDIUM_RSS_REVALIDATE_SECONDS },
+  });
 
-    if (!response.ok) throw new Error(`Medium RSS returned HTTP ${response.status}`);
-    const posts = parseMediumFeed(await response.text());
-    if (posts.length === 0) {
-      throw new Error("Medium RSS contained no usable posts");
-    }
-    return posts;
-  } catch (error) {
-    console.error(
-      "Live Medium RSS feed failed; serving the last-known-good blog snapshot.",
-      error,
-    );
-    return fallbackPosts;
+  if (!response.ok) throw new Error(`Medium RSS returned HTTP ${response.status}`);
+  const posts = parseMediumFeed(await response.text());
+  if (posts.length === 0) {
+    throw new Error("Medium RSS contained no usable posts");
   }
+  return posts;
+}
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  const feedUrls = Array.from(new Set([MEDIUM_RSS_URL, MEDIUM_PROFILE_RSS_URL]));
+  let lastError: unknown;
+
+  for (const feedUrl of feedUrls) {
+    try {
+      return await fetchMediumPosts(feedUrl);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  console.error(
+    "Live Medium RSS feeds failed; serving the last-known-good blog snapshot.",
+    lastError,
+  );
+  return fallbackPosts;
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {
