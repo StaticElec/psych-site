@@ -140,8 +140,8 @@ Deploy the main site through the existing Vinext/Sites workflow as a Cloudflare
 Worker with SSR/ISR support. Do not select Cloudflare Pages' static Next.js
 preset: the blog feed is fetched by the generated site Worker and relies on
 hourly revalidation. `vite.config.ts` supplies a current Worker compatibility
-date and the `nodejs_compat` flag required for server dependencies and
-`process.env`; verify both remain present in the generated
+date supported by the pinned Wrangler runtime and the `nodejs_compat` flag
+required for server dependencies and `process.env`; verify both remain present in the generated
 `dist/server/wrangler.json` after every production build.
 
 The standalone `psych-site-contact` Worker is not the site runtime. It owns only
