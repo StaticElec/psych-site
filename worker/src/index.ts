@@ -53,6 +53,23 @@ function validateForm(value: unknown): ContactData | null {
   return { name, phone, email, message };
 }
 
+function parseAllowedOrigins(value: string): Set<string> | null {
+  if (typeof value !== "string") return null;
+  const origins = value.split(",").map((origin) => origin.trim()).filter(Boolean);
+  if (origins.length === 0) return null;
+
+  for (const origin of origins) {
+    try {
+      const parsed = new URL(origin);
+      if (parsed.origin !== origin || !["http:", "https:"].includes(parsed.protocol)) return null;
+    } catch {
+      return null;
+    }
+  }
+
+  return new Set(origins);
+}
+
 async function readBody(request: Request): Promise<string | null> {
   if (!request.body) return null;
   const reader = request.body.getReader();
@@ -82,14 +99,8 @@ async function readBody(request: Request): Promise<string | null> {
 }
 
 function validConfig(env: Env): boolean {
-  const allowedOrigin = env.ALLOWED_ORIGIN;
-  try {
-    const parsed = new URL(allowedOrigin);
-    if (parsed.origin !== allowedOrigin || !["http:", "https:"].includes(parsed.protocol)) return false;
-  } catch {
-    return false;
-  }
-  return Boolean(env.RESEND_API_KEY)
+  return parseAllowedOrigins(env.ALLOWED_ORIGIN) !== null
+    && Boolean(env.RESEND_API_KEY)
     && isEmail(env.CONTACT_TO_EMAIL ?? "")
     && isEmail(env.CONTACT_FROM_EMAIL ?? "")
     && typeof env.CONTACT_FROM_NAME === "string"
@@ -108,9 +119,10 @@ const contactWorker = {
     if (url.pathname !== "/api/contact") return json(404, { success: false, message: "Not found." });
     if (!validConfig(env)) return json(503, { success: false, message: FAILURE_MESSAGE });
 
-    const allowedOrigin = env.ALLOWED_ORIGIN;
+    const allowedOrigins = parseAllowedOrigins(env.ALLOWED_ORIGIN)!;
     const origin = request.headers.get("Origin");
-    if (origin !== allowedOrigin) return json(403, { success: false, message: "Forbidden." });
+    if (!origin || !allowedOrigins.has(origin)) return json(403, { success: false, message: "Forbidden." });
+    const allowedOrigin = origin;
 
     if (request.method === "OPTIONS") {
       if (request.headers.get("Access-Control-Request-Method") !== "POST") {
@@ -173,33 +185,14 @@ const contactWorker = {
       });
       if (error) {
         console.error("Resend error:", error);
-
-        return json(
-          502,
-          {
-            success: false,
-            message: FAILURE_MESSAGE,
-            debug: error,
-          },
-          allowedOrigin
-        );
+        return json(502, { success: false, message: FAILURE_MESSAGE }, allowedOrigin);
       }
       return json(200, { success: true }, allowedOrigin);
     } catch (error) {
-        console.error("Resend exception:", error);
-
-        return json(
-          502,
-          {
-            success: false,
-            message: FAILURE_MESSAGE,
-            debug: String(error),
-          },
-          allowedOrigin
-        );
-      }
+      console.error("Resend exception:", error);
       return json(502, { success: false, message: FAILURE_MESSAGE }, allowedOrigin);
     }
-  };
+  },
+};
 
 export default contactWorker;

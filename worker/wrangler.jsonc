@@ -8,7 +8,7 @@
     "enabled": true
   },
   "vars": {
-    "ALLOWED_ORIGIN": "https://www.depthandmeaningpsychotherapy.com",
+    "ALLOWED_ORIGIN": "https://depthandmeaningpsychotherapy.com,https://www.depthandmeaningpsychotherapy.com",
     "CONTACT_FROM_EMAIL": "contact@depthandmeaningpsychotherapy.com",
     "CONTACT_FROM_NAME": "Depth and Meaning Psychotherapy",
     "CONTACT_SUBJECT_PREFIX": "Form Input: ",

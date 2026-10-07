@@ -22,7 +22,7 @@ The standalone Worker configuration is [`worker/wrangler.jsonc`](worker/wrangler
 | `CONTACT_FROM_EMAIL` | Text variable | Sender address on the verified Resend domain. |
 | `CONTACT_FROM_NAME` | Text variable | Display name, such as `Website Contact Form`. |
 | `CONTACT_SUBJECT_PREFIX` | Text variable | Subject prefix, such as `Website Inquiry`. |
-| `ALLOWED_ORIGIN` | Text variable | Exact website origin, such as `https://example.com`, without a trailing slash or path. |
+| `ALLOWED_ORIGIN` | Text variable | Comma-separated website origins, without trailing slashes or paths (for example, `https://example.com,https://www.example.com`). |
 
 The Wrangler config uses `keep_vars: true` so future Worker deployments retain changes made to text variables in the Cloudflare dashboard. The API key remains a Cloudflare secret. To enter it from the terminal instead of the dashboard, run the interactive command below after creating the Worker; do not paste the key into a shell command:
 
@@ -41,7 +41,7 @@ npm run install:ci
 cp worker/.dev.vars.example worker/.dev.vars
 ```
 
-Edit `worker/.dev.vars` with a real **test** API key, a permitted test recipient, and `ALLOWED_ORIGIN=http://localhost:5173`. This file is ignored by Git. Create an ignored `.env.local` in the repository root containing:
+Edit `worker/.dev.vars` with a real **test** API key, a permitted test recipient, and `ALLOWED_ORIGIN=http://localhost:5173`. This file is ignored by Git. Multiple allowed origins can be separated with commas. Create an ignored `.env.local` in the repository root containing:
 
 ```dotenv
 NEXT_PUBLIC_CONTACT_API_URL=http://127.0.0.1:8787/api/contact
@@ -65,7 +65,7 @@ Sign in to Cloudflare, then deploy or update the contact Worker from the reposit
 npm run worker:deploy
 ```
 
-The first deploy creates `psych-site-contact` and prints its `workers.dev` URL. Then add the six Worker bindings above (including the secret). The Worker returns a generic failure until all bindings are valid. For a production custom domain, you may attach a Cloudflare route or custom domain to this Worker; keep `/api/contact` as the path. `ALLOWED_ORIGIN` must be the **frontend website** origin, not the Worker origin.
+The first deploy creates `psych-site-contact` and prints its `workers.dev` URL. Then add the six Worker bindings above (including the secret). The Worker returns a generic failure until all bindings are valid. For a production custom domain, you may attach a Cloudflare route or custom domain to this Worker; keep `/api/contact` as the path. `ALLOWED_ORIGIN` must contain the **frontend website** origin or origins, not the Worker origin.
 
 This frontend is a Vinext/Vite site published through the existing Sites workflow, not through this contact Worker's Wrangler config. Set the frontend build variable `NEXT_PUBLIC_CONTACT_API_URL` to the deployed Worker URL plus `/api/contact`, then rebuild and republish the Site through its existing Sites workflow. Do not publish a build that still points to the local Worker. `npm run build` checks the frontend build locally; it does not publish the Site.
 

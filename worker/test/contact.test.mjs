@@ -9,7 +9,7 @@ const env = {
   CONTACT_FROM_EMAIL: "contact@example.com",
   CONTACT_FROM_NAME: "Website Contact Form",
   CONTACT_SUBJECT_PREFIX: "Website Inquiry",
-  ALLOWED_ORIGIN: "http://localhost:5173",
+  ALLOWED_ORIGIN: "http://localhost:5173,http://127.0.0.1:5173",
 };
 const validForm = {
   name: "Jane Smith",
@@ -19,7 +19,7 @@ const validForm = {
   website: "",
 };
 
-function request(body, origin = env.ALLOWED_ORIGIN) {
+function request(body, origin = "http://localhost:5173") {
   return new Request("http://localhost:8787/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/json" },
@@ -37,15 +37,17 @@ test("email template escapes visitor text and includes a plain-text version", ()
   assert.match(email.text, /September 25, 2026/);
 });
 
-test("preflight accepts only the configured origin and POST", async () => {
-  const preflight = new Request("http://localhost:8787/api/contact", {
-    method: "OPTIONS",
-    headers: { Origin: env.ALLOWED_ORIGIN, "Access-Control-Request-Method": "POST" },
-  });
-  const allowed = await worker.fetch(preflight, env);
-  assert.equal(allowed.status, 204);
-  assert.equal(allowed.headers.get("Access-Control-Allow-Origin"), env.ALLOWED_ORIGIN);
-  assert.equal(allowed.headers.get("Access-Control-Allow-Methods"), "POST, OPTIONS");
+test("preflight accepts each configured origin and POST", async () => {
+  for (const origin of ["http://localhost:5173", "http://127.0.0.1:5173"]) {
+    const preflight = new Request("http://localhost:8787/api/contact", {
+      method: "OPTIONS",
+      headers: { Origin: origin, "Access-Control-Request-Method": "POST" },
+    });
+    const allowed = await worker.fetch(preflight, env);
+    assert.equal(allowed.status, 204);
+    assert.equal(allowed.headers.get("Access-Control-Allow-Origin"), origin);
+    assert.equal(allowed.headers.get("Access-Control-Allow-Methods"), "POST, OPTIONS");
+  }
 
   const blocked = await worker.fetch(request(validForm, "https://elsewhere.example"), env);
   assert.equal(blocked.status, 403);
@@ -67,14 +69,14 @@ test("invalid input and oversized payloads are rejected before sending", async (
 
   const malformed = await worker.fetch(new Request("http://localhost:8787/api/contact", {
     method: "POST",
-    headers: { Origin: env.ALLOWED_ORIGIN, "Content-Type": "application/json" },
+    headers: { Origin: "http://localhost:5173", "Content-Type": "application/json" },
     body: "{not json",
   }), env);
   assert.equal(malformed.status, 400);
 
   const get = await worker.fetch(new Request("http://localhost:8787/api/contact", {
     method: "GET",
-    headers: { Origin: env.ALLOWED_ORIGIN },
+    headers: { Origin: "http://localhost:5173" },
   }), env);
   assert.equal(get.status, 405);
   assert.equal(get.headers.get("Allow"), "POST, OPTIONS");
