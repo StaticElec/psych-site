@@ -171,12 +171,35 @@ const contactWorker = {
         replyTo: data.email,
         ...email,
       });
-      if (error) return json(502, { success: false, message: FAILURE_MESSAGE }, allowedOrigin);
+      if (error) {
+        console.error("Resend error:", error);
+
+        return json(
+          502,
+          {
+            success: false,
+            message: FAILURE_MESSAGE,
+            debug: error,
+          },
+          allowedOrigin
+        );
+      }
       return json(200, { success: true }, allowedOrigin);
-    } catch {
+    } catch (error) {
+        console.error("Resend exception:", error);
+
+        return json(
+          502,
+          {
+            success: false,
+            message: FAILURE_MESSAGE,
+            debug: String(error),
+          },
+          allowedOrigin
+        );
+      }
       return json(502, { success: false, message: FAILURE_MESSAGE }, allowedOrigin);
     }
-  },
-};
+  };
 
 export default contactWorker;

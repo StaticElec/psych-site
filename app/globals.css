@@ -179,7 +179,12 @@ a { color: inherit; }
   .header-contact .phone span,.header-cta { display: none; }
   .desktop-nav { display: none; }
   .mobile-nav { display: block; padding-block: 10px 16px; }
-  .mobile-nav summary { cursor: pointer; color: var(--blue); font-weight: 700; }
+  .mobile-nav-toggle { display: block; padding: 0; border: 0; background: transparent; color: var(--blue); font: inherit; font-weight: 700; text-align: left; cursor: pointer; }
+  .mobile-nav-toggle::before { content: ""; display: inline-block; margin-right: .4em; border-top: .35em solid transparent; border-bottom: .35em solid transparent; border-left: .45em solid currentColor; vertical-align: .02em; }
+  .mobile-nav-toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
+  .mobile-nav-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 300ms cubic-bezier(.4,0,.2,1); }
+  .mobile-nav-panel[data-open="true"] { grid-template-rows: 1fr; }
+  .mobile-nav-panel-inner { min-height: 0; overflow: hidden; }
   .mobile-nav nav { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; padding-top: 12px; }
   .mobile-nav a { padding: 8px; border: 1px solid var(--line); text-decoration: none; text-align: center; }
   .hero { min-height: 280px; margin-top: 20px; }

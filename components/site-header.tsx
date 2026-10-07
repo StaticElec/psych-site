@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ImageSlot } from "@/components/image-slot";
@@ -6,7 +7,21 @@ import { siteContent } from "@/content/site-content";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { contactInformation, header, images, navigation, sharedLabels } = siteContent;
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 761px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMobileMenuOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   return (
     <header className="site-header">
@@ -22,7 +37,22 @@ export function SiteHeader() {
       <nav className="desktop-nav wrap" aria-label={navigation.desktopAriaLabel}>
         {navigation.links.map(({ label, href }) => <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined}><span className="button-label">{label}</span></Link>)}
       </nav>
-      <details className="mobile-nav wrap"><summary>{navigation.mobileMenuLabel}</summary><nav aria-label={navigation.mobileAriaLabel}>{navigation.links.map(({ label, href }) => <Link key={href} href={href}><span className="button-label">{label}</span></Link>)}</nav></details>
+      <div className="mobile-nav wrap">
+        <button
+          className="mobile-nav-toggle"
+          type="button"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-links"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >{navigation.mobileMenuLabel}</button>
+        <div className="mobile-nav-panel" data-open={mobileMenuOpen}>
+          <div className="mobile-nav-panel-inner">
+            <nav id="mobile-nav-links" aria-label={navigation.mobileAriaLabel} inert={!mobileMenuOpen}>
+              {navigation.links.map(({ label, href }) => <Link key={href} href={href} onClick={() => setMobileMenuOpen(false)}><span className="button-label">{label}</span></Link>)}
+            </nav>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
