@@ -11,7 +11,7 @@ ratio to preserve the current layout.
 
 | Settings key | Physical filename | Where it appears | Recommended size / aspect ratio |
 | --- | --- | --- | --- |
-| `images.branding.headerLogo` | `header-logo-small.webp` | Site header | Transparent lossless WebP, 256 × 256 px |
+| `images.branding.headerLogo` | `header-logo-transparent.png` | Site header | Transparent PNG, 1302 × 324 px |
 | `images.branding.footerLogo` | `footer-logo-small.webp` | Site footer | Transparent lossless WebP, 256 × 256 px |
 | `images.branding.favicon` | `favicon-128.png` | Browser tab | Transparent PNG, 128 × 128 px |
 | `images.branding.pageBackground` | `page-background.png` | Background across all pages | 1024 × 1536 px |

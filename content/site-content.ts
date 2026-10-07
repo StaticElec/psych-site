@@ -69,7 +69,6 @@ export const siteContent = {
 
   header: {
     homeAriaLabel: `${sharedIdentity.practiceNamePlainText} home`,
-    phoneIcon: "☎",
   },
 
   footer: {
@@ -242,7 +241,7 @@ export const siteContent = {
 
   images: {
     branding: {
-      headerLogo: { src: "/images/header-logo-small.webp", alt: sharedIdentity.practiceNamePlainText, placeholderLabel: "Header logo" },
+      headerLogo: { src: "/images/header-logo-transparent.png", alt: sharedIdentity.practiceNamePlainText, placeholderLabel: "Header logo" },
       footerLogo: { src: "/images/footer-logo-small.webp", alt: sharedIdentity.practiceNamePlainText, placeholderLabel: "Footer logo" },
       favicon: { src: "/images/favicon-128.png", alt: `${sharedIdentity.practiceNamePlainText} icon`, placeholderLabel: "Favicon" },
       pageBackground: { src: "/images/page-background.webp", alt: "", placeholderLabel: "Page background" },

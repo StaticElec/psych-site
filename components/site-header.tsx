@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Phone } from "lucide-react";
 import { ImageSlot } from "@/components/image-slot";
 import { siteContent } from "@/content/site-content";
 
@@ -30,7 +31,7 @@ export function SiteHeader() {
           <ImageSlot {...images.branding.headerLogo} className="brand-logo-slot" priority />
         </Link>
         <div className="header-contact">
-          <a className="phone" href={contactInformation.phone.href}>{header.phoneIcon} <span>{contactInformation.phone.display}</span></a>
+          <a className="phone" href={contactInformation.phone.href}><Phone className="phone-icon" aria-hidden="true" /><span>{contactInformation.phone.display}</span></a>
           <Link className="header-cta" href="/contact"><span className="button-label">{sharedLabels.scheduleConsultation}</span></Link>
         </div>
       </div>
