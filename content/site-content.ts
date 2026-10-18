@@ -28,8 +28,8 @@ export const siteContent = {
       href: "tel:+17473053949",
     },
     email: {
-      display: "yanaromanov@depthandmeaning.com",
-      href: "mailto:yanaromanov@depthandmeaning.com",
+      display: "yanaromanov@depthandmeaningpsychotherapy.com",
+      href: "mailto:yanaromanov@depthandmeaningpsychotherapy.com",
     },
     officeHours: ["Monday – Friday", "11:00 – 6:00"],
     address: ["15455 San Fernando Mission Blvd", "Suite 300", "Mission Hills, CA 91345"],
@@ -64,7 +64,7 @@ export const siteContent = {
   },
 
   sharedLabels: {
-    scheduleConsultation: "Schedule a Consultation",
+    scheduleConsultation: "Schedule a Free Consultation",
   },
 
   header: {
@@ -213,7 +213,7 @@ export const siteContent = {
       emailLabel: "Email Address",
       messageLabel: "Tell me about yourself and best time to reach you",
       wordLimit: 500,
-      wordLimitLabel: "500 word limit",
+      wordLimitLabel: "",
       wordsRemainingLabel: "words remaining",
       submitLabel: "Request Consultation",
       sendingLabel: "Sending…",
@@ -247,7 +247,7 @@ export const siteContent = {
       pageBackground: { src: "/images/page-background.webp", alt: "", placeholderLabel: "Page background" },
     },
     homePage: {
-      hero: { src: "/images/home-hero.webp", alt: "Coastal landscape at sunset", placeholderLabel: "Home hero image" },
+      hero: { src: "/images/home-hero-approved.webp", alt: "Lighthouse above the ocean at sunset", placeholderLabel: "Home hero image" },
       anxietyService: { src: "/images/home-anxiety.webp", alt: "", placeholderLabel: "Anxiety image" },
       depressionService: { src: "/images/home-depression.webp", alt: "", placeholderLabel: "Depression image" },
       familyTherapyService: { src: "/images/home-family.webp", alt: "", placeholderLabel: "Family therapy image" },

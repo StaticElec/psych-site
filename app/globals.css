@@ -32,16 +32,18 @@ a { color: inherit; }
 .wrap { width: min(1120px,calc(100% - 40px)); margin-inline: auto; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .site-header { background: transparent; }
+/* Logo size also changes the header row height; the offset shifts only the logo. */
+.site-header { --header-logo-size: 67%; --header-logo-offset-x: 0px; }
 .header-top { width: min(1684px,calc(100% - 40px)); min-height: 120px; display: flex; align-items: center; justify-content: space-between; gap: 32px; border-bottom: 1px solid var(--line); }
-.brand { display: block; flex: 0 1 1041.6px; min-width: 0; text-decoration: none; }
-.image-slot.brand-logo-slot { width: 1041.6px; max-width: 100%; min-height: 0; aspect-ratio: 1302 / 324; background: transparent; }
+.brand { display: block; flex: 0 1 1041.6px; min-width: 0; text-decoration: none; transform: translateX(var(--header-logo-offset-x)); }
+.image-slot.brand-logo-slot { width: 1041.6px; max-width: 100%; min-height: 0; aspect-ratio: 1302 / 324; overflow: visible; background: transparent; zoom: var(--header-logo-size); }
 .image-slot.brand-logo-slot img { position: static; display: block; width: 100%; max-width: 100%; height: auto; object-fit: contain; }
 .footer-logo-slot img { object-fit: contain; }
 .header-contact { display: grid; flex: 0 0 max-content; justify-items: stretch; gap: 10px; min-width: 310px; }
 .phone { display: inline-flex; align-items: center; gap: .35em; justify-self: center; text-decoration: none; font: 1.35rem var(--font-open-sans),Arial,sans-serif; }
 .phone-icon { width: 1em; height: 1em; stroke-width: 1.75; }
 .header-cta,.primary-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 28px; background: var(--blue); color: #fff; text-decoration: none; text-transform: uppercase; letter-spacing: .12em; border-radius: 18px; transition: background .2s ease,transform .2s ease; }
-.header-cta { white-space: nowrap; }
+.header-cta { white-space: nowrap; font-size: clamp(.7rem,.85vw,.82rem); letter-spacing: .07em; padding-inline: clamp(12px,1.65vw,24px); }
 .header-cta:hover,.primary-cta:hover { background: var(--bright-blue); transform: translateY(-1px); }
 .button-label { position: relative; display: inline-block; }
 .button-label::after { content: ""; position: absolute; right: 50%; bottom: -.15em; left: 50%; height: 1px; background: currentColor; pointer-events: none; transition: right .22s ease,left .22s ease; }
@@ -50,9 +52,10 @@ a { color: inherit; }
 .desktop-nav a { justify-self: center; text-decoration: none; font-size: 1.15rem; padding: 8px 4px; border-bottom: 3px solid transparent; }
 .desktop-nav .button-label::after { bottom: -11px; height: 3px; background: var(--gold); }
 .mobile-nav { display: none; }
-.hero { position: relative; min-height: 350px; margin-top: 62px; overflow: hidden; }
-.hero .image-slot { position: absolute; inset: 0; }
-.hero h1 { position: relative; z-index: 1; margin: 42px 0 0 52px; font: italic 600 clamp(1.7rem,4vw,3rem)/1.3 var(--font-della-respira),Georgia,"Times New Roman",serif; color: #12232a; text-shadow: 0 1px 10px rgba(255,255,255,.8); }
+.hero { position: relative; min-height: 0; margin-top: 62px; overflow: hidden; display: grid; place-items: center; }
+.hero .image-slot { position: relative; inset: auto; width: 100%; aspect-ratio: 1084 / 241; min-height: 0; background: transparent; }
+.hero .image-slot img { object-fit: contain; }
+.hero h1 { position: absolute; }
 .home-background { background-image: var(--page-background-image); background-position: left top; background-size: 100vw auto; background-repeat: no-repeat; background-blend-mode: normal; }
 .image-slot { position: relative; overflow: hidden; background: linear-gradient(135deg,#e9ddca,#f6eee3 60%,#d8c4a2); min-height: 140px; }
 .image-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .2s ease; }
@@ -62,7 +65,7 @@ a { color: inherit; }
 .home-intro { padding: 66px 7% 30px; text-align: center; }
 .home-intro blockquote { position: relative; margin: 0 auto 34px; max-width: 900px; color: var(--blue); font: italic 1.22rem/1.55 var(--font-open-sans),Arial,sans-serif; }
 .home-intro blockquote span { position: absolute; left: -35px; top: -25px; color: var(--bright-blue); font: 5rem/1 var(--font-open-sans),Arial,sans-serif; }
-.primary-cta { width: min(820px,100%); text-transform: none; letter-spacing: 0; font-size: 1.1rem; border-radius: 12px; }
+.primary-cta { width: min(820px,100%); padding-inline: clamp(12px,2.2vw,28px); text-transform: none; letter-spacing: 0; font-size: clamp(.9rem,1.3vw,1.1rem); border-radius: 12px; }
 .services-preview { padding: 28px 0 78px; text-align: center; }
 .services-preview h2 { color: var(--blue); text-transform: uppercase; letter-spacing: .045em; font: 700 1.55rem var(--font-open-sans),Arial,sans-serif; }
 .service-list { display: grid; gap: 44px; margin: 42px 0; text-align: left; }
@@ -176,7 +179,8 @@ a { color: inherit; }
 }
 @media (max-width: 760px) {
   .wrap { width: min(100% - 28px,680px); }
-  .header-top { min-height: 96px; }
+  .hero.wrap { width: 100%; }
+  .header-top { min-height: clamp(48px,16vw,120px); }
   .image-slot.brand-logo-slot { width: min(1302px,calc(100vw - 100px)); }
   .header-contact { min-width: 0; }
   .header-contact .phone span,.header-cta { display: none; }
@@ -190,8 +194,8 @@ a { color: inherit; }
   .mobile-nav-panel-inner { min-height: 0; overflow: hidden; }
   .mobile-nav nav { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; padding-top: 12px; }
   .mobile-nav a { padding: 8px; border: 1px solid var(--line); text-decoration: none; text-align: center; }
-  .hero { min-height: 280px; margin-top: 20px; }
-  .hero h1 { margin: 28px 0 0 24px; }
+  .hero { min-height: 0; margin-top: 20px; }
+  .hero .image-slot { width: 100%; }
   .home-intro { padding-inline: 30px; }
   .home-intro blockquote span { left: -25px; }
   .service-row { grid-template-columns: 1fr; gap: 16px; }

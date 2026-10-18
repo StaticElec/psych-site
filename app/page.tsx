@@ -9,7 +9,7 @@ export default function Home() {
     <main className="home-page">
       <section className="hero wrap" aria-label={homePage.introductionAriaLabel}>
         <ImageSlot {...images.homePage.hero} priority />
-        <h1>{homePage.headlineLines[0]}<br />{homePage.headlineLines[1]}</h1>
+        <h1 className="sr-only">{homePage.headlineLines[0]}: {homePage.headlineLines[1]}</h1>
       </section>
       <div className="home-background">
         <section className="home-intro wrap">
