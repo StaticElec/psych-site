@@ -28,11 +28,11 @@ export const siteContent = {
       href: "tel:+17473053949",
     },
     email: {
-      display: "yanaromanov@depthandmeaningpsychotherapy.com",
-      href: "mailto:yanaromanov@depthandmeaningpsychotherapy.com",
+      display: "yromanov@depthandmeaningpsychotherapy.com",
+      href: "mailto:yromanov@depthandmeaningpsychotherapy.com",
     },
     officeHours: ["Monday – Friday", "11:00 – 6:00"],
-    address: ["15455 San Fernando Mission Blvd", "Suite 300", "Mission Hills, CA 91345"],
+    address: ["Currently online only!"],
   },
 
   metadata: {
